@@ -19,3 +19,19 @@ class SensorReadError(ThermalAcquisitionError):
 class UnsupportedUnitError(InvalidReadingError):
     """Raised when an unsupported temperature unit is specified."""
     pass
+
+
+class ThermalModelError(Exception):
+    """Base exception for thermal RC model and simulation errors."""
+    pass
+
+
+class InvalidThermalParameterError(ThermalModelError, ValueError):
+    """Raised when a thermal physical parameter, timestep, or input power is invalid, non-numeric, or out of bounds."""
+    pass
+
+
+class ThermalSimulationError(ThermalModelError):
+    """Raised when thermal simulation integration fails or encounters numerical anomalies."""
+    pass
+
