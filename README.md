@@ -73,8 +73,42 @@ print(f"Static Power:  {result.static_power:.4f} W")
 print(f"Total Power:   {result.total_power:.4f} W")
 ```
 
+### Thermal RC Model Subsystem (`src/thermal`)
+
+The Thermal Model subsystem converts dynamic/static power consumption into temperature evolution using a first-order equivalent thermal RC network:
+
+- **Thermal Resistance ($R_\theta$)**: Relates power dissipation to equilibrium temperature rise:
+  $$\Delta T = P \cdot R_\theta$$
+  $$T_{\text{steady}} = T_{\text{ambient}} + P \cdot R_\theta$$
+- **Thermal Capacitance ($C_{\text{th}}$)**: Models package thermal mass and thermal time constant $\tau$:
+  $$C_{\text{th}} \frac{dT}{dt} = P(t) - \frac{T(t) - T_{\text{ambient}}}{R_\theta}$$
+  $$\tau = R_\theta \cdot C_{\text{th}}$$
+- **Transient Response**: Single-step and time-series simulation supporting constant or dynamic time-varying power profiles:
+  $$T(t + \Delta t) = T_{\text{steady}} + (T(t) - T_{\text{steady}}) \cdot e^{-\Delta t / \tau}$$
+
+#### Python API Usage
+
+```python
+from src.thermal import ThermalModel, ThermalConfig
+
+model = ThermalModel(
+    thermal_resistance=1.2,     # 1.2 °C/W
+    thermal_capacitance=20.0,   # 20.0 J/°C (tau = 24.0s)
+    ambient_temperature=25.0,   # 25.0 °C
+    initial_temperature=25.0,
+)
+
+# 1. Direct steady-state calculation
+t_steady = model.steady_state_temperature(power=25.0)  # 55.0 °C
+
+# 2. Transient simulation over time
+simulation = model.simulate(power=25.0, duration=120.0, timestep=1.0)
+print(f"Final Temp: {simulation.final_temperature:.2f} °C")
+```
+
 ## Team
 
 ### Owner
 - Pranav Prasad
+
 

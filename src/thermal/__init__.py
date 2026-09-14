@@ -6,6 +6,9 @@ from .exceptions import (
     InvalidReadingError,
     SensorReadError,
     UnsupportedUnitError,
+    ThermalModelError,
+    InvalidThermalParameterError,
+    ThermalSimulationError,
 )
 from .reading import ThermalReading, normalize_to_celsius
 from .sensor import ThermalSensor, SimulatedThermalSensor
@@ -30,6 +33,8 @@ from .anomaly_result import (
 from .anomaly_detector import ThermalAnomalyDetector
 from .health_result import ThermalHealthStatus, ThermalHealthResult
 from .health_monitor import ThermalHealthMonitor
+from .thermal_result import ThermalStepResult, ThermalSimulationResult
+from .thermal_model import ThermalModel
 from .simulation import (
     ThermalScenarioPhase,
     ThermalScenario,
@@ -46,6 +51,9 @@ __all__ = [
     "InvalidReadingError",
     "SensorReadError",
     "UnsupportedUnitError",
+    "ThermalModelError",
+    "InvalidThermalParameterError",
+    "ThermalSimulationError",
     "ThermalReading",
     "normalize_to_celsius",
     "ThermalSensor",
@@ -69,6 +77,9 @@ __all__ = [
     "ThermalHealthStatus",
     "ThermalHealthResult",
     "ThermalHealthMonitor",
+    "ThermalStepResult",
+    "ThermalSimulationResult",
+    "ThermalModel",
     "ThermalScenarioPhase",
     "ThermalScenario",
     "ThermalScenarioResultStep",
