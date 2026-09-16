@@ -26,7 +26,7 @@ from src.safety import (
     ThermalSafetyResult,
     ThermalStatus,
 )
-from src.thermal import ThermalConfig, ThermalModel, ThermalSimulationResult
+from src.thermal import CoreThermalState, TemperatureMonitor, ThermalConfig, ThermalModel, ThermalSimulationResult
 from src.visualization import (
     SimulationPlotter,
     plot_overview,
@@ -51,6 +51,8 @@ __all__ = [
     "ThermalConfig",
     "ThermalModel",
     "ThermalSimulationResult",
+    "CoreThermalState",
+    "TemperatureMonitor",
     "SimulationConfig",
     "ThermoShiftSimulation",
     "ThermoShiftSimulationResult",

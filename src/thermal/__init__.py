@@ -35,6 +35,7 @@ from .health_result import ThermalHealthStatus, ThermalHealthResult
 from .health_monitor import ThermalHealthMonitor
 from .thermal_result import ThermalStepResult, ThermalSimulationResult
 from .thermal_model import ThermalModel
+from .temperature_monitor import CoreThermalState, TemperatureMonitor
 from .simulation import (
     ThermalScenarioPhase,
     ThermalScenario,
@@ -80,6 +81,8 @@ __all__ = [
     "ThermalStepResult",
     "ThermalSimulationResult",
     "ThermalModel",
+    "CoreThermalState",
+    "TemperatureMonitor",
     "ThermalScenarioPhase",
     "ThermalScenario",
     "ThermalScenarioResultStep",
@@ -88,8 +91,3 @@ __all__ = [
     "ThermalScenarioRunner",
     "get_all_standard_scenarios",
 ]
-
-
-
-
-
