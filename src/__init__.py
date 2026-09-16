@@ -18,6 +18,7 @@ from src.simulation import (
     ThermoShiftSimulation,
     ThermoShiftSimulationResult,
 )
+from src.analysis import SimulationAnalysisSummary, SimulationAnalyzer
 from src.safety import (
     ThermalSafetyAnalysis,
     ThermalSafetyConfig,
@@ -26,6 +27,13 @@ from src.safety import (
     ThermalStatus,
 )
 from src.thermal import ThermalConfig, ThermalModel, ThermalSimulationResult
+from src.visualization import (
+    SimulationPlotter,
+    plot_overview,
+    plot_power,
+    plot_temperature,
+    plot_workload,
+)
 from src.workload import WorkloadPhase, WorkloadPoint, WorkloadProfile
 
 __all__ = [
@@ -53,4 +61,11 @@ __all__ = [
     "ThermalSafetyResult",
     "ThermalSafetyAnalysis",
     "ThermalSafetyMonitor",
+    "SimulationAnalyzer",
+    "SimulationAnalysisSummary",
+    "plot_workload",
+    "plot_power",
+    "plot_temperature",
+    "plot_overview",
+    "SimulationPlotter",
 ]

@@ -232,11 +232,57 @@ sim_results = simulation.run(...)
 # Analyze simulation safety results
 analysis = sim_results.analyze_safety(monitor)
 
-summary = analysis.summary()
-print(f"Maximum Temp: {summary['maximum_temperature']} °C")
-print(f"Has Overheating: {summary['has_overheating']}")
-print(f"Warning Timesteps: {summary['warning_timesteps']} ({summary['warning_duration_seconds']}s)")
-print(f"Transitions Logged: {len(analysis.transitions)}")
+### Visualization & Analysis Subsystem (`src/analysis` & `src/visualization`)
+
+The Visualization & Analysis Subsystem decouples simulation physics from statistical analysis and graphic presentation. It consumes structured simulation results (`ThermoShiftSimulationResult`) and safety classifications to provide comprehensive statistical summaries and publication-ready plots.
+
+```
+Simulation Results  ──>  SimulationAnalyzer  ──>  Statistical Analysis & Insights
+         │
+         └──>  SimulationPlotter  ──>  Workload, Power, Temperature & Overview Dashboard Plots
+```
+
+#### Statistical Analysis (`src/analysis`)
+
+The `SimulationAnalyzer` calculates metrics without recalculating physical equations:
+- **Workload Metrics**: Peak, average, and minimum utilization ratios.
+- **Power Metrics**: Peak dynamic, static, and total power; average power components; minimum total power.
+- **Temperature Metrics**: Peak temperature, time of peak, average, minimum, and final temperature.
+- **Thermal Safety & Violation Metrics**: Warning/critical/overheating flags, first event timestamps, state durations in seconds, and timestep counts.
+
+#### Visualization Functions (`src/visualization`)
+
+- **Workload vs Time (`plot_workload`)**: Plots normalized workload utilization (%) over time.
+- **Power vs Time (`plot_power`)**: Plots dynamic, static, and total power dissipation (W) over time.
+- **Temperature & Thermal Limits vs Time (`plot_temperature`)**: Plots core temperature evolution, overlays warning/critical/overheating threshold lines, and marks threshold transition events directly on the temperature curve.
+- **Overview Dashboard (`plot_overview`)**: Plots a synchronized 3-panel dashboard (Workload, Power, Temperature with thresholds).
+
+All plotting functions:
+- Accept `ThermoShiftSimulationResult` instances directly.
+- Return usable matplotlib `(Figure, Axes)` objects for downstream customization.
+- Support exporting figures to disk (`save_path="output.png"`, PNG/SVG).
+
+#### Python API Usage
+
+```python
+from src.analysis import SimulationAnalyzer
+from src.visualization import plot_overview, plot_power, plot_temperature, plot_workload
+from src.simulation import ThermoShiftSimulation
+
+# 1. Run Simulation
+simulation = ThermoShiftSimulation(...)
+results = simulation.run(...)
+
+# 2. Perform Statistical Analysis
+analyzer = SimulationAnalyzer()
+summary = analyzer.analyze(results)
+print(summary.to_string())
+
+# 3. Generate & Save Visualizations
+fig_w, ax_w = results.plot_workload(save_path="workload.png")
+fig_p, ax_p = results.plot_power(save_path="power.png")
+fig_t, ax_t = results.plot_temperature(save_path="temperature.png", show_thresholds=True, show_violations=True)
+fig_dash, axes = results.plot_overview(save_path="dashboard.png")
 ```
 
 ## Team

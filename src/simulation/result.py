@@ -262,6 +262,40 @@ class ThermoShiftSimulationResult:
         safety_mon = monitor if monitor is not None else ThermalSafetyMonitor()
         return safety_mon.analyze(self)
 
+    def analyze(self, analyzer: Optional[Any] = None, safety_monitor: Optional[Any] = None) -> Any:
+        """Run comprehensive statistical and safety analysis on this simulation result.
+
+        Args:
+            analyzer: Optional SimulationAnalyzer instance.
+            safety_monitor: Optional ThermalSafetyMonitor instance.
+
+        Returns:
+            SimulationAnalysisSummary object containing comprehensive statistics.
+        """
+        from src.analysis.analyzer import SimulationAnalyzer
+        anz = analyzer if analyzer is not None else SimulationAnalyzer()
+        return anz.analyze(self, safety_monitor=safety_monitor)
+
+    def plot_workload(self, save_path: Optional[str] = None, show: bool = False, **kwargs: Any) -> Any:
+        """Plot CPU workload utilization time series."""
+        from src.visualization.plotter import plot_workload
+        return plot_workload(self, save_path=save_path, show=show, **kwargs)
+
+    def plot_power(self, save_path: Optional[str] = None, show: bool = False, **kwargs: Any) -> Any:
+        """Plot dynamic, static, and total power time series."""
+        from src.visualization.plotter import plot_power
+        return plot_power(self, save_path=save_path, show=show, **kwargs)
+
+    def plot_temperature(self, save_path: Optional[str] = None, show: bool = False, **kwargs: Any) -> Any:
+        """Plot temperature evolution with thermal limit threshold overlays."""
+        from src.visualization.plotter import plot_temperature
+        return plot_temperature(self, save_path=save_path, show=show, **kwargs)
+
+    def plot_overview(self, save_path: Optional[str] = None, show: bool = False, **kwargs: Any) -> Any:
+        """Plot combined overview dashboard (Workload, Power, Temperature)."""
+        from src.visualization.plotter import plot_overview
+        return plot_overview(self, save_path=save_path, show=show, **kwargs)
+
     def get_variable(self, name: str) -> List[float]:
         """Access a specific output variable series by name.
 
