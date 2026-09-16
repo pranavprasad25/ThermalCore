@@ -11,8 +11,10 @@ from src.visualization.exceptions import InvalidVisualizationError, Visualizatio
 
 
 def _get_plt() -> Any:
-    """Helper to safely import matplotlib.pyplot."""
+    """Helper to safely import matplotlib.pyplot with non-interactive Agg backend."""
     try:
+        import matplotlib
+        matplotlib.use("Agg")
         import matplotlib.pyplot as plt
         return plt
     except ImportError as exc:
